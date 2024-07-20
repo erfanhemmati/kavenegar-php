@@ -64,6 +64,13 @@ class KavenegarApi
             throw new HttpException("Request have errors", $code);
         } else {
             $json_return = $json_response->return;
+
+            if ($json_return->status == 411) {
+                // for invalid mobile number format response
+
+                return $json_response->entries;
+            }
+
             if ($json_return->status != 200) {
                 throw new ApiException($json_return->message, $json_return->status);
             }
